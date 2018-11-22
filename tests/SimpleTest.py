@@ -14,7 +14,7 @@ class SimpleSample(ISample):
         self.correct_matrix = {}
         matrix = [
             '0 1 E',
-            '3 0 E',
+            '0 3 E',
             '1 0 S2',
             '1 1 S1',
             '1 2 S2',
@@ -54,17 +54,19 @@ class SimpleSample(ISample):
     def check_equal(self, answer_file):
         if not os.path.exists(answer_file):
             return False
-        self.answer_matrix = {}
+        answer_matrix = {}
         with open(answer_file, 'r') as f_in:
             for line in f_in:
                 line_split = line.split(' ')
                 row = int(line_split[0])
                 col = int(line_split[1])
                 ss = line_split[2:]
-                if row not in line_split:
-                    line_split[row] = {}
-                line_split[row][col] = ss
-        return self.answer_matrix == self.correct_matrix
+                if ss[-1] == '\n':
+                    ss = ss[:-1]
+                if row not in answer_matrix:
+                    answer_matrix[row] = {}
+                answer_matrix[row][col] = ss
+        return answer_matrix == self.correct_matrix
                            
 
 class SimpleTest(ITest):
