@@ -46,8 +46,8 @@ bool mult(int res, int a1, int a2, int ver_num) {  // res += a1 * a2
 
 int main(int argc, char* argv[]) {
     auto nfh_stream = ifstream(argv[1], ifstream::in);
-    string from, to1, to2;
-    while (nfh_stream >> from >> to1) {
+    string from, to1, to2, delim;
+    while (nfh_stream >> from >> delim >> to1) {
         if (to1[0] >= 'A' && to1[0] <= 'Z') {
             nfh_stream >> to2;
             prod.emplace_back(from, to1, to2);
