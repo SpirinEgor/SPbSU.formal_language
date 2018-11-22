@@ -14,7 +14,7 @@ for test in tests:
         subprocess.call(['./run.sh', sample.chomsky_file, sample.graph_file, 'answer.txt'])
         finish_time = time.time()
         if sample.check_equal('answer.txt'):
-            print('test #{} done in {}ms'.format(id + 1, finish_time - start_time))
+            print('test #{} done in {}s'.format(id + 1, finish_time - start_time))
         else:
             print('test #{}: uncorrect'.format(id + 1))
             break
