@@ -5,9 +5,9 @@ using namespace std;
 const int MAXN = (int)1e3;
 
 struct rule {
-    char from_, to1_, to2_;
+    string from_, to1_, to2_;
 
-    rule(char from, char to1, char to2) : from_(from), to1_(to1), to2_(to2) {}
+    rule(string from, string to1, string to2) : from_(from), to1_(to1), to2_(to2) {}
 };
 
 char g[MAXN][MAXN];
@@ -15,85 +15,98 @@ vector<rule> prod;
 
 bool mat[30][MAXN][MAXN];
 
-unordered_map<char, char> reverse_prod;
-unordered_set<char> nonterm;
+unordered_map<string, int> reverse_prod;
+int cnt = 0;
+unordered_map<string, int> bij;
 
-void print(char c, int ver_num) {
+void print(int c, int ver_num) {
     for (int i = 0; i < ver_num; ++i) {
         for (int j = 0; j < ver_num; ++j) {
-            cout << mat[c - 'A'][i][j] << " ";
+            cout << mat[c][i][j] << " ";
         }
         cout << '\n';
     }
     cout << endl;
 }
 
-bool mult(char res, char a1, char a2, int ver_num) {  // res += a1 * a2
+bool mult(int res, int a1, int a2, int ver_num) {  // res += a1 * a2
     bool has_changed = false;
     for (int i = 0; i < ver_num; ++i) {
         for (int j = 0; j < ver_num; ++j) {
             bool cur = 0;
             for (int k = 0; k < ver_num; ++k) {
-                cur |= (mat[a1 - 'A'][i][k] && mat[a2 - 'A'][k][j]);
+                cur |= (mat[a1][i][k] && mat[a2][k][j]);
             }
-            has_changed |= (mat[res - 'A'][i][j] != (mat[res - 'A'][i][j] | cur));
-            mat[res - 'A'][i][j] |= cur;
+            has_changed |= (mat[res][i][j] != (mat[res][i][j] | cur));
+            mat[res][i][j] |= cur;
         }
     }
     return has_changed;
 }
 
-int main() {
-    auto nfh_stream = ifstream("nfh.txt", ifstream::in);
-    string to;
-    char from;
-    while (nfh_stream >> from >> to) {
-        if (to[0] >= 'A' && to[0] <= 'Z') {
-            prod.emplace_back(from, to[0], to[1]);
-            nonterm.insert(to[0]);
-            nonterm.insert(to[1]);
+int main(int argc, char* argv[]) {
+    auto nfh_stream = ifstream(argv[1], ifstream::in);
+    string from, to1, to2;
+    while (nfh_stream >> from >> to1) {
+        if (to1[0] >= 'A' && to1[0] <= 'Z') {
+            nfh_stream >> to2;
+            prod.emplace_back(from, to1, to2);
+            if (!bij.count(to1)) {
+                bij[to1] = cnt++;
+            }
+            if (!bij.count(to2)) {
+                bij[to2] = cnt++;
+            }
         } else {
-            reverse_prod[to[0]] = from;
+            if (!bij.count(from)) {
+                bij[from] = cnt++;
+            }
+            reverse_prod[to1] = bij[from];
         }
     }
     nfh_stream.close();
-    auto graph_stream = ifstream("graph.txt", ifstream::in);
+    auto graph_stream = ifstream(argv[2], ifstream::in);
     int a, b;
-    char c;
+    string c;
     int num_vertices = 0;
     while (graph_stream >> a >> b >> c) {
-        mat[reverse_prod[c] - 'A'][a][b] = 1;
+        mat[reverse_prod[c]][a][b] = 1;
         num_vertices = max(num_vertices, max(a, b));
     }
     graph_stream.close();
     ++num_vertices;
-    int iter_num = 1;
+    // int iter_num = 1;
 
-    auto time_start = chrono::steady_clock::now();
+    // auto time_start = chrono::steady_clock::now();
     while (true) {
         bool has_changed = false;
         for (auto & cur_prod : prod) {
-            has_changed |= mult(cur_prod.from_, cur_prod.to1_, cur_prod.to2_, num_vertices);
+            has_changed |= mult(bij[cur_prod.from_], bij[cur_prod.to1_], bij[cur_prod.to2_], num_vertices);
         }
         if (!has_changed) {
             break;
         }
-        ++iter_num;
+        // ++iter_num;
     }
-    auto time_finish = chrono::steady_clock::now();
+    // auto time_finish = chrono::steady_clock::now();
+    auto out_stream = ofstream(argv[3], ifstream::out);
     for (int i = 0; i < num_vertices; ++i) {
         for (int j = 0; j < num_vertices; ++j) {
-            cout << "{";
-            for (char c : nonterm) {
-                if (mat[c - 'A'][i][j]) {
-                    cout << c << ',';
+            bool flag = true;
+            for (auto& s : bij) {
+                if (mat[s.second][i][j]) {
+                    if (flag) {
+                        out_stream << i << " " << j << " ";
+                        flag = false;
+                    }
+                    out_stream << s.first << " ";
                 }
             }
-            cout << "}\t";
+            if (!flag) { 
+                out_stream << "\n";
+            }
         }
-        cout << '\n';
     }
-    auto diff = time_finish - time_start;
-    cout << "time: " << chrono::duration <double, milli> (diff).count() << "s\niters: " << iter_num - 1;
-    cout << endl;
+    // auto diff = time_finish - time_start;
+    // cout << "time: " << chrono::duration <double, milli> (diff).count() << "s\niters: " << iter_num - 1;
 }
