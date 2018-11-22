@@ -1,5 +1,7 @@
 __pycache__/
 simple_test/
+answer.txt
+
+.vscode/
 
 a.out
-.vscode/
