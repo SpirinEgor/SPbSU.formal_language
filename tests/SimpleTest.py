@@ -10,6 +10,8 @@ class SimpleSample(ISample):
         if not os.path.exists('./simple_test'):
             os.makedirs('./simple_test')
 
+        self.comment = 'test from example'
+
         self.graph_size = 4
         self.correct_matrix = {}
         matrix = [

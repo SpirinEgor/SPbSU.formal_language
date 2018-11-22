@@ -4,6 +4,8 @@ class ISample:
         self.graph_file: str = 'Graph'
         self.result_file: str = 'Result'
 
+        self.comment = 'interface'
+
     def check_equal(self, answer_file) -> bool:
         return True
 
