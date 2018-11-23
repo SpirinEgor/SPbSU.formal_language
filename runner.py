@@ -4,8 +4,9 @@ from typing import Generator
 
 from tests.ITest import ITest
 from tests.SimpleTest import SimpleTest
+from tests.CicleTest import CircleTest
 
-tests = [SimpleTest()]
+tests = [SimpleTest(), CircleTest()]
 
 for test in tests:
     print('=== {} ==='.format(test.name))
