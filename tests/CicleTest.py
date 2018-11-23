@@ -29,7 +29,7 @@ class CircleSample(ISample):
         with open(self.result_file, 'w+') as f_out:
             for i in range(n):
                 for j in range(n):
-                    f_out.write('{} {} S S1\n')
+                    f_out.write('{} {} S S1\n'.format(i, j))
     
     def check_equal(self, answer_file):
         if not os.path.exists(answer_file):
