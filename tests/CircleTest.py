@@ -1,9 +1,10 @@
 import os
+from tqdm import tqdm
 
 from .ITest import ISample, ITest
 
 class CircleSample(ISample):
-    def __init__(self, n):
+    def __init__(self, n, gen_files):
         self.chomsky_file = './circle_test/chomsky.txt'
         self.graph_file = './circle_test/graph_{}.txt'.format(n)
         self.result_file = './circle_test/result_{}.txt'.format(n)
@@ -13,23 +14,24 @@ class CircleSample(ISample):
         self.comment = 'graph with {} vertices'.format(n)
         self.graph_size = n
 
-        with open(self.chomsky_file, 'w+') as f_out:
-            lines = [
-                'S : S S',
-                'S : S1 S',
-                'S : a',
-                'S1 : S S' 
-            ]
-            f_out.write('\n'.join(lines))
+        if gen_files:
+            with open(self.chomsky_file, 'w') as f_out:
+                lines = [
+                    'S : S S',
+                    'S : S1 S',
+                    'S : a',
+                    'S1 : S S' 
+                ]
+                f_out.write('\n'.join(lines))
 
-        with open(self.graph_file, 'w+') as f_out:
-            for i in range(n):
-                f_out.write('{} {} a\n'.format(i + 1, (i + 1) % n + 1))
-        
-        with open(self.result_file, 'w+') as f_out:
-            for i in range(n):
-                for j in range(n):
-                    f_out.write('{} {} S S1\n'.format(i, j))
+            with open(self.graph_file, 'w') as f_out:
+                for i in range(n):
+                    f_out.write('{} {} a\n'.format(i + 1, (i + 1) % n + 1))
+            
+            with open(self.result_file, 'w') as f_out:
+                for i in range(n):
+                    for j in range(n):
+                        f_out.write('{} {} S S1\n'.format(i, j))
     
     def check_equal(self, answer_file):
         if not os.path.exists(answer_file):
@@ -50,6 +52,12 @@ class CircleSample(ISample):
 
 
 class CircleTest(ITest):
-    def __init__(self):
+    def __init__(self, maxn=5000, total=30, gen_files=True):
         self.name = 'circle test'
-        self.samples = [CircleSample(i) for i in [3, 5, 10]]
+        print('Prepare circle tests')
+        self.samples = [CircleSample(int(i), gen_files) for i in tqdm(linspace(3, maxn, total), total=total)]
+
+def linspace(start, stop, size):
+    step = (stop - start + 1) / (size - 1)
+    for i in range(size):
+        yield min(start + i * step, stop)

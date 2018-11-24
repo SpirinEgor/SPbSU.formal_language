@@ -11,7 +11,12 @@ There are commands: `curl`, `wget`, `git`, `apt`...
 There is `runner.py`, which prepares tests and run your code using `run.sh`, where you should define, how to run your script.  
 Use 3 variables to get paths to input and output files.
 
-## Data
+# Install required packages
+```
+pip install matplotlib
+```
+
+# Data
 **All indexes starts with 1**
 
 Contex-Free grammar defines in chomsky normal form:
