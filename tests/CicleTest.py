@@ -18,7 +18,7 @@ class CircleSample(ISample):
                 'S : S S',
                 'S : S1 S',
                 'S : a',
-                'S1 : SS' 
+                'S1 : S S' 
             ]
             f_out.write('\n'.join(lines))
 
