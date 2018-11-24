@@ -70,8 +70,8 @@ int main(int argc, char* argv[]) {
     string c;
     int num_vertices = 0;
     while (graph_stream >> a >> b >> c) {
-        mat[reverse_prod[c]][a][b] = 1;
-        num_vertices = max(num_vertices, max(a, b));
+        mat[reverse_prod[c]][a - 1][b - 1] = 1;
+        num_vertices = max(num_vertices, max(a - 1, b - 1));
     }
     graph_stream.close();
     ++num_vertices;
@@ -96,7 +96,7 @@ int main(int argc, char* argv[]) {
             for (auto& s : bij) {
                 if (mat[s.second][i][j]) {
                     if (flag) {
-                        out_stream << i << " " << j << " ";
+                        out_stream << i + 1 << " " << j + 1 << " ";
                         flag = false;
                     }
                     out_stream << s.first << " ";
