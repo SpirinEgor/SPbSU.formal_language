@@ -12,6 +12,8 @@ There is `runner.py`, which prepares tests and run your code using `run.sh`, whe
 Use 3 variables to get paths to input and output files.
 
 ## Data
+**All indexes starts with 1**
+
 Contex-Free grammar defines in chomsky normal form:
 ```
 head : tail1 tail2
@@ -43,18 +45,18 @@ R : )
 ```
 Graph:
 ```
-0 1 num
-1 2 +
-2 3 num
-1 0 *
+1 2 num,
+2 3 +,
+3 4 num,
+2 1 *
 ```
 Result:
 ```
-0 1 E
-0 3 E
-1 0 S2
-1 1 S1
-1 2 S2
-1 3 S1
-2 3 E
+1 2 E,
+1 4 E,
+2 1 S2,
+2 2 S1,
+2 3 S2,
+2 4 S1,
+3 4 E
 ```
