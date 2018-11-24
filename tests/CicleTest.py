@@ -24,7 +24,7 @@ class CircleSample(ISample):
 
         with open(self.graph_file, 'w+') as f_out:
             for i in range(n):
-                f_out.write('{} {} a\n'.format(i, (i + 1) % n))
+                f_out.write('{} {} a\n'.format(i + 1, (i + 1) % n + 1))
         
         with open(self.result_file, 'w+') as f_out:
             for i in range(n):
@@ -43,7 +43,7 @@ class CircleSample(ISample):
                 ss = line_split[2:]
                 if (len(ss) != 2 or not ('S' in ss and 'S1' in ss)):
                     return False
-                check_matrix[row][col] = 1
+                check_matrix[row - 1][col - 1] = 1
         return sum(check_matrix) == self.graph_size * self.graph_size
 
 

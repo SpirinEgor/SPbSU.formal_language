@@ -15,13 +15,13 @@ class SimpleSample(ISample):
         self.graph_size = 4
         self.correct_matrix = {}
         matrix = [
-            '0 1 E',
-            '0 3 E',
-            '1 0 S2',
-            '1 1 S1',
-            '1 2 S2',
-            '1 3 S1',
-            '2 3 E'
+            '1 2 E',
+            '1 4 E',
+            '2 1 S2',
+            '2 2 S1',
+            '2 3 S2',
+            '2 4 S1',
+            '3 4 E'
         ]
         for line in matrix:
             row, col, s = line.split(' ')
@@ -44,10 +44,10 @@ class SimpleSample(ISample):
             f_out.write('\n'.join(lines))
         with open(self.graph_file, 'w+') as f_out:
             lines = [
-                '0 1 num',
-                '1 2 +',
-                '2 3 num',
-                '1 0 *'
+                '1 2 num',
+                '2 3 +',
+                '3 4 num',
+                '2 1 *'
             ]
             f_out.write('\n'.join(lines))
         with open(self.result_file, 'w+') as f_out:
