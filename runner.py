@@ -4,10 +4,10 @@ from typing import Generator
 
 from tests.ITest import ITest
 from tests.SimpleTest import SimpleTest
-from tests.CicleTest import CircleTest
+from tests.CircleTest import CircleTest
 
-tests = [SimpleTest(), CircleTest()]
-TIMEOUT = 60
+tests = [SimpleTest(), CircleTest(2500, 30, True)]
+TIMEOUT = 120
 
 for test in tests:
     print('=== {} ==='.format(test.name))
