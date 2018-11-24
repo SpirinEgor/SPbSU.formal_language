@@ -9,6 +9,7 @@ jobs:
       - run:
           name: install dependencies
           command: |
+            pip3 install tqdm
             ./install.sh
       - run:
           name: run
