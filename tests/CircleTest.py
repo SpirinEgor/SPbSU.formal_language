@@ -43,8 +43,8 @@ class CircleSample(ISample):
                 line_split = line.split(' ')
                 row, col = int(line_split[0]), int(line_split[1])
                 ss = line_split[2:]
-                if '\n' in ss:
-                    ss = ss[:-1]
+                if '\n' in ss[-1]:
+                    ss[-1] = ss[-1][:-1]
                 if (len(ss) != 2 or not ('S' in ss and 'S1' in ss)):
                     return False
                 check_matrix[row - 1][col - 1] = 1

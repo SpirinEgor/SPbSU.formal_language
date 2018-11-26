@@ -5,3 +5,4 @@ INPUT_GRAPH_FILE=$2
 OUTPUT_FILE=$3
 
 # call your programm here
+python3 algo.py $INPUT_CHOMSKY_FILE $INPUT_GRAPH_FILE $OUTPUT_FILE
