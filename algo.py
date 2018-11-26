@@ -1,7 +1,7 @@
 from collections import defaultdict
 from copy import deepcopy
 import sys
-
+#
 vertices = 0
 
 def read():
