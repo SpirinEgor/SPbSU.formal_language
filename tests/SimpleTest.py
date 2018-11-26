@@ -63,8 +63,8 @@ class SimpleSample(ISample):
                 row = int(line_split[0])
                 col = int(line_split[1])
                 ss = line_split[2:]
-                if ss[-1] == '\n':
-                    ss = ss[:-1]
+                if ss[-1][-1] == '\n':
+                    ss[-1] = ss[-1][:-1]
                 if row not in answer_matrix:
                     answer_matrix[row] = {}
                 answer_matrix[row][col] = ss
