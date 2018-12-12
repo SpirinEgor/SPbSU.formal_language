@@ -46,8 +46,8 @@ bool mult(int res, int a1, int a2, int ver_num) {  // res += a1 * a2
 
 int main(int argc, char* argv[]) {
     auto nfh_stream = ifstream(argv[1], ifstream::in);
-    string from, to1, to2, delim;
-    while (nfh_stream >> from >> delim >> to1) {
+    string from, to1, to2;
+    while (nfh_stream >> from >> to1) {
         if (to1[0] >= 'A' && to1[0] <= 'Z') {
             nfh_stream >> to2;
             prod.emplace_back(from, to1, to2);
@@ -69,7 +69,7 @@ int main(int argc, char* argv[]) {
     int a, b;
     string c;
     int num_vertices = 0;
-    while (graph_stream >> a >> b >> c) {
+    while (graph_stream >> a >> c >> b) {
         mat[reverse_prod[c]][a - 1][b - 1] = 1;
         num_vertices = max(num_vertices, max(a - 1, b - 1));
     }
@@ -90,23 +90,21 @@ int main(int argc, char* argv[]) {
     }
     // auto time_finish = chrono::steady_clock::now();
     auto out_stream = ofstream(argv[3], ifstream::out);
-    for (int i = 0; i < num_vertices; ++i) {
-        for (int j = 0; j < num_vertices; ++j) {
-            bool flag = true;
-            for (auto& s : bij) {
+    for (auto& s : bij) {
+        if (s.first[0] <= 'A' || s.first[0] >= 'Z') {
+            continue;
+        }
+        out_stream << s.first << " ";
+        for (int i = 0; i < num_vertices; ++i) {
+            for (int j = 0; j < num_vertices; ++j) {
                 if (mat[s.second][i][j]) {
-                    if (flag) {
-                        out_stream << i + 1 << " " << j + 1 << " ";
-                        flag = false;
-                    }
-                    out_stream << s.first << " ";
+                    out_stream << i + 1 << " " << j + 1 << " ";
                 }
             }
-            if (!flag) { 
-                out_stream << "\n";
-            }
         }
+        out_stream << '\n';
     }
+    out_stream.close();
     // auto diff = time_finish - time_start;
     // cout << "time: " << chrono::duration <double, milli> (diff).count() << "s\niters: " << iter_num - 1;
 }
