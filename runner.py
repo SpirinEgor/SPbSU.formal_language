@@ -6,7 +6,7 @@ from tests.ITest import ITest
 from tests.SimpleTest import SimpleTest
 from tests.CircleTest import CircleTest
 
-tests = [SimpleTest()]#, CircleTest(5000, 50, True)]
+tests = [SimpleTest(), CircleTest(5000, 50, True)]
 TIMEOUT = 120
 
 for test in tests:
