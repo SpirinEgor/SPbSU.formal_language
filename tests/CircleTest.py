@@ -28,10 +28,14 @@ class CircleSample(ISample):
                 for i in range(n):
                     f_out.write('{} a {}\n'.format(i + 1, (i + 1) % n + 1))
 
-            for nonterm in ['S', 'S1']:
-                rows = [i + 1 for i in range(n) for j in range(n)]
-                cols = [j + 1 for i in range(n) for j in range(n)]
-                self.result[nonterm] = sorted(zip(rows, cols))
+    def check_equal(self, answer_file):
+        for nonterm in ['S', 'S1']:
+            rows = [i + 1 for i in range(self.graph_size) for j in range(self.graph_size)]
+            cols = [j + 1 for i in range(self.graph_size) for j in range(self.graph_size)]
+            self.result[nonterm] = sorted(zip(rows, cols))
+        res = super().check_equal(answer_file)
+        del self.result
+        return res
 
 
 class CircleTest(ITest):
