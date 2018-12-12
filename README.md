@@ -21,47 +21,48 @@ pip install matplotlib
 
 Contex-Free grammar defines in chomsky normal form:
 ```
-head : tail1 tail2
-head : tail1
+head tail1
+head eps
+head tail1 tail2
 ...
 ```
 Graph defines by its edges:
 ```
-from to symbol
+from symbol to
 ... 
 ```
-Instead of printing all matrix for output, print only non-empty cells with all nonterms in it:
+Instead of printing all matrix for output, print only non-empty cells for each nonterm symbol:
 ```
-row col nonterm1 nonterm2 ...
+nonterm1 row1 col1 row2 col2 ...
+nonterm2
 ...
 ```
 ## Example
 Chomsky Normal Form:
 ```
-E : E S1
-E : num
-E : L N
-S1 : S2 E
-S2 : +
-S2 : *
-L : (
-N : E R
-R : )
+E num
+S2 +
+S2 *
+L (
+R )
+E E S1
+E L N
+S1 S2 E
+N E R
 ```
 Graph:
 ```
-1 2 num,
-2 3 +,
-3 4 num,
-2 1 *
+1 num 2,
+2 + 3,
+3 num 4,
+2 * 1
 ```
 Result:
 ```
-1 2 E,
-1 4 E,
-2 1 S2,
-2 2 S1,
-2 3 S2,
-2 4 S1,
-3 4 E
+L
+R
+S2 1 2 2 1 2 3 3 4
+S1
+E
+N
 ```
