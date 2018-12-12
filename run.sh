@@ -5,4 +5,4 @@ INPUT_GRAPH_FILE=$2
 OUTPUT_FILE=$3
 
 # call your programm here
-touch OUTPUT_FILE
+touch $OUTPUT_FILE
