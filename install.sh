@@ -23,6 +23,7 @@ sudo apt-get install autoconf
 # sh configure --prefix /usr/local
 # make install 
 
+echo "----- M4ri -----"
 git clone https://vkutuev@bitbucket.org/vkutuev/m4ri.git
 cd m4ri/
 autoreconf --install
@@ -30,5 +31,6 @@ autoreconf --install
 sudo make install
 cd ..
 
+echo "----- Make program -----"
 cmake . -DCMAKE_BUILD_TYPE=Release
 make
