@@ -1,14 +1,14 @@
 #!/bin/bash
 
 echo "----- Install dependencies -----"
-apt-get update
-apt-get install -y cmake
+sudo apt-get update
+sudo apt-get install cmake autoconf
 
 git clone https://vkutuev@bitbucket.org/vkutuev/m4ri.git
 cd m4ri/
 autoreconf --install
 ./configure
-make install
+sudo make install
 cd ..
 
 cmake . -DCMAKE_BUILD_TYPE=Release -j 4
