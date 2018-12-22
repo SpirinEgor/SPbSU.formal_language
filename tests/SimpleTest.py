@@ -16,9 +16,9 @@ class SimpleSample(ISample):
         correct = [
             'L', 
             'R', 
-            'S2 1 2 2 1 2 3 3 4',
-            'S1',
-            'E',
+            'S2 2 1 2 3',
+            'S1 2 2 2 4',
+            'E 1 2 1 4 1 2',
             'N'
         ]
         for line in correct:

@@ -2,3 +2,12 @@
 
 echo "----- Install dependencies -----"
 
+git clone https://vkutuev@bitbucket.org/vkutuev/m4ri.git
+cd m4ri/
+autoreconf --install
+./configure
+make install
+cd ..
+
+cmake . -DCMAKE_BUILD_TYPE=Release -j 4
+make
