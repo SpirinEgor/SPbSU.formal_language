@@ -52,9 +52,9 @@ N E R
 ```
 Graph:
 ```
-1 num 2,
-2 + 3,
-3 num 4,
+1 num 2
+2 + 3
+3 num 4
 2 * 1
 ```
 Result:
