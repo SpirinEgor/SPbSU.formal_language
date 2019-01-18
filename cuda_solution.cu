@@ -24,7 +24,7 @@ vector<rule> prod;
 
 int ver_num;
 bool tmp_mat[30][MAXN][MAXN];
-bool mat[30][MAXN * MAXN];
+bool* mat[30];
 
 unordered_map<string, int> reverse_prod;
 int cnt = 0;
@@ -100,7 +100,7 @@ __global__ void matrix_mul(bool *a, bool *b, bool *c, int a_ncolumns, int c_nlin
 
     // Set value to Matrix C
     if (column < c_ncolumns && line < c_nlines) {
-        c[line * c_ncolumns + column] |= cur_value;
+        c[line * c_ncolumns + column] = cur_value;
     }
 }
 
@@ -117,7 +117,7 @@ bool mult(int res, int a1, int a2) {  // res += a1 * a2
     gpuErrchk( cudaMalloc((void **) &d_c, size) );
 
     bool* c = (bool*)malloc(size);
-    memset(c, 0, size);
+    memset(c, false, size);
 
     gpuErrchk( cudaMemcpy(d_a, mat[a1], size, cudaMemcpyHostToDevice) );
     gpuErrchk( cudaMemcpy(d_b, mat[a2], size, cudaMemcpyHostToDevice) );
@@ -173,15 +173,15 @@ int main(int argc, char* argv[]) {
     auto graph_stream = std::ifstream(argv[2], std::ifstream::in);
     int a, b;
     string c;
-    int num_vertices = 0;
     while (graph_stream >> a >> c >> b) {
         tmp_mat[reverse_prod[c]][a - 1][b - 1] = 1;
-        num_vertices = max(num_vertices, max(a - 1, b - 1));
+        ver_num = max(ver_num, max(a - 1, b - 1));
     }
+    ++ver_num;
     graph_stream.close();
-    ++num_vertices;
-    ver_num = num_vertices;
     for (auto & term : reverse_prod) {
+        mat[term.second] = (bool*)malloc(ver_num * ver_num);
+        memset(mat[term.second], false, ver_num * ver_num);
         for (int i = 0; i < ver_num; ++i) {
             for (int j = 0; j < ver_num; ++j) {
                 mat[term.second][i * ver_num + j] = tmp_mat[term.second][i][j];
@@ -208,8 +208,8 @@ int main(int argc, char* argv[]) {
             continue;
         }
         out_stream << s.first << " ";
-        for (int i = 0; i < num_vertices; ++i) {
-            for (int j = 0; j < num_vertices; ++j) {
+        for (int i = 0; i < ver_num; ++i) {
+            for (int j = 0; j < ver_num; ++j) {
                 if (mat[s.second][i * ver_num + j]) {
                     out_stream << i + 1 << " " << j + 1 << " ";
                 }
