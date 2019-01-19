@@ -14,12 +14,12 @@ class SimpleSample(ISample):
 
         self.graph_size = 4
         correct = [
-            'L', 
-            'R', 
-            'S2 1 2 2 1 2 3 3 4',
-            'S1',
-            'E',
-            'N'
+            'E 1 2 1 4 3 4',
+            'L',
+            'N',
+            'R',
+            'S1 2 2 2 4',
+            'S2 2 1 2 3'
         ]
         for line in correct:
             line_split = line.split(' ')
@@ -37,7 +37,7 @@ class SimpleSample(ISample):
                 'S2 *',
                 'S2 +',
                 'L (',
-                'R )'
+                'R )',
                 'E num',
                 'E E S1',
                 'E L N',
