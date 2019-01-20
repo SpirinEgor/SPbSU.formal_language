@@ -70,9 +70,11 @@ int main() {
         int rows = mat_size, cols = calc_col_number(mat_size);
         BLOCK_TYPE* a = new BLOCK_TYPE [rows * cols];
         BLOCK_TYPE* b = new BLOCK_TYPE [rows * cols];
+        BLOCK_TYPE* bT = new BLOCK_TYPE [rows * cols];
         BLOCK_TYPE* c = new BLOCK_TYPE [rows * cols];
         std::fill_n(a, rows * cols, 0);
         std::fill_n(b, rows * cols, 0);
+        std::fill_n(bT, rows * cols, 0);
         std::fill_n(c, rows * cols, 0);
 
         for (int r = 0; r < rows; ++r) {
@@ -86,21 +88,32 @@ int main() {
         BLOCK_TYPE* d_a;
         BLOCK_TYPE* d_b;
         BLOCK_TYPE* d_c;
+        BLOCK_TYPE* d_bT;
         int mem_size = rows * cols * sizeof(BLOCK_TYPE);
         gpuErrchk(cudaMalloc(reinterpret_cast<void **>(&d_a), mem_size));
         gpuErrchk(cudaMalloc(reinterpret_cast<void **>(&d_b), mem_size));
+        gpuErrchk(cudaMalloc(reinterpret_cast<void **>(&d_bT), mem_size));
         gpuErrchk(cudaMalloc(reinterpret_cast<void **>(&d_c), mem_size));
 
         gpuErrchk(cudaMemcpy(d_a, a, mem_size, cudaMemcpyHostToDevice));    
         gpuErrchk(cudaMemcpy(d_b, b, mem_size, cudaMemcpyHostToDevice));
         gpuErrchk(cudaMemset(d_c, 0, mem_size));
 
-        dim3 blocks(cols / 32 + 1, rows);
-        dim3 threads(32);
-        mult<<<blocks, threads>>>(d_a, d_b, d_c, rows, cols);
+        dim3 blocks(cols / THREADS_NUMBER + 1, rows);
+        dim3 threads(THREADS_NUMBER);
+        // transpose<<<blocks, threads>>>(d_b, d_bT, rows, cols);
+        // cudaDeviceSynchronize();
+        // gpuErrchk(cudaGetLastError());
+
+        // _mult_with_add_transpose<<<blocks, threads>>>(d_a, d_bT, d_c, rows, cols);
+        // cudaDeviceSynchronize();
+        // gpuErrchk(cudaGetLastError());
+
+        _mult_with_add<<<blocks, threads>>>(d_a, d_b, d_c, rows, cols);
         cudaDeviceSynchronize();
         gpuErrchk(cudaGetLastError());
 
+        // gpuErrchk(cudaMemcpy(bT, d_bT, mem_size, cudaMemcpyDeviceToHost));
         gpuErrchk(cudaMemcpy(c, d_c, mem_size, cudaMemcpyDeviceToHost));
 
         for (int r = 0; r < rows; ++r) {
@@ -122,11 +135,13 @@ int main() {
             print(a, rows, cols);
             std::cout << "B compress" << std::endl;
             print(b, rows, cols);
+            // std::cout << "B transpose" << std::endl;
+            // print(bT, rows, cols);
             std::cout << "C GPU" << std::endl;
             print(c, rows, cols);
         }
         free(a); free(b); free(c);
-        cudaFree(d_a); cudaFree(d_b); cudaFree(d_c);
+        cudaFree(d_a); cudaFree(d_b); cudaFree(d_bT); cudaFree(d_c);
     }
     std::cout << (result ? "Success!!" : "Failure!!") << std::endl;
     return 0;

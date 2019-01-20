@@ -17,6 +17,10 @@ inline void gpuAssert(cudaError_t code, const char *file, int line, bool abort=t
 
 bool mult_with_add(BLOCK_TYPE* a, BLOCK_TYPE* b, BLOCK_TYPE* c, int rows, int cols);
 
-__global__ void mult(BLOCK_TYPE* a, BLOCK_TYPE* b, BLOCK_TYPE* c, int rows, int cols);
+__global__ void _mult_with_add(BLOCK_TYPE* a, BLOCK_TYPE* b, BLOCK_TYPE* c, int rows, int cols);
+
+__global__ void transpose(BLOCK_TYPE *a, BLOCK_TYPE *b, int rows, int cols);
+
+__global__ void _mult_with_add_transpose(BLOCK_TYPE* a, BLOCK_TYPE* b, BLOCK_TYPE* c, int rows, int cols);
 
 #endif  // MULT

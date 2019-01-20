@@ -20,6 +20,8 @@ std::pair<int, int> calc_col_pos(int n) {
 }
 
 int main(int argc, char* argv[]) {
+    std::ios_base::sync_with_stdio(false);
+    std::cin.tie(nullptr), std::cout.tie(nullptr);
     auto reader = Reader(argv[1], argv[2]);
 
     auto rows = reader.num_vertices;
