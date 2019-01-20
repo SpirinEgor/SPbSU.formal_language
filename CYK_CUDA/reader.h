@@ -21,7 +21,7 @@ class Reader {
             if (!str2num.count(head)) {
                 str2num[head] = nonterm_count++;
             }
-            if (body1[0] >= 'A' && body1[0] <= 'Z') {
+            if (body1[0] >= 'a' && body1[0] <= 'z') {
                 chomsky_stream >> body2;
                 if (!str2num.count(body1)) {
                     str2num[body1] = nonterm_count++;
@@ -41,7 +41,7 @@ class Reader {
         auto graph_stream = std::ifstream(graph_file, std::ifstream::in);
         int from, to;
         while (graph_stream >> from >> body1 >> to) {
-            --from, --to;
+            // --from, --to;
             edge.push_back({body1, {from, to}});
             num_vertices = std::max(num_vertices, std::max(from, to) + 1);
         }

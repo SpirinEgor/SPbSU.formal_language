@@ -2,9 +2,13 @@ __pycache__/
 
 simple_test/
 circle_test/
+tests/
 
 answer.txt
 
 .vscode/
+.idea/
+
+build/
 
 a.out
