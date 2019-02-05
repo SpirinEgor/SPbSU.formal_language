@@ -56,7 +56,7 @@ int main(int argc, char* argv[]) {
             for (int c = 0; c < cols; ++c) {
                 for (int bit = BLOCK_SIZE - 1; bit >= 0; --bit) {
                     if (mat[nonterm.second][r * cols + c] >> bit & 1) {
-                        output_stream << r << ' ' << c * BLOCK_SIZE + BLOCK_SIZE - bit - 1 << ' ';
+                        output_stream << r + 1 << ' ' << c * BLOCK_SIZE + BLOCK_SIZE - bit << ' ';
                     }
                 }
             }
