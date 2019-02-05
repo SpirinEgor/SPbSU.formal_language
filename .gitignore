@@ -3,6 +3,7 @@ __pycache__/
 simple_test/
 circle_test/
 tests/
+plot.png
 
 answer.txt
 
@@ -10,5 +11,7 @@ answer.txt
 .idea/
 
 build/
+cmake-build-debug/
+cmake-build-debug_remote/
 
 a.out
