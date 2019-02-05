@@ -2,7 +2,16 @@ __pycache__/
 
 simple_test/
 circle_test/
+tests/
+plot.png
 
 answer.txt
 
 .vscode/
+.idea/
+
+build/
+cmake-build-debug/
+cmake-build-debug_remote/
+
+a.out

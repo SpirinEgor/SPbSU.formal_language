@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/Voudy/SPBU.formal_language/tree/master.svg?style=svg)](https://circleci.com/gh/Voudy/SPBU.formal_language/tree/master)
+
 # SPBU.formal_language
 Intersection of regular language as graph and CFG in Chomsky normal form
 
